@@ -36,9 +36,9 @@ class RangeItem(Validation):
     def get(self, value):
         val = self.type(value)
         if val < self.min:
-            raise ValidationError("Value " + str(val) + " below minimum ("+str(self.min) + ").")
+            raise ValidationError(f"Value {str(val)} below minimum ({str(self.min)}).")
         elif val > self.max:
-            raise ValidationError("Value " + str(val) + "above maximum ("+str(self.max) + ").")
+            raise ValidationError(f"Value {str(val)}above maximum ({str(self.max)}).")
         else:
             return val
 
@@ -52,7 +52,7 @@ class ListItem(Validation):
         if val in self.seq:
             return val
         else:
-            raise ValidationError("Option " + str(val) + " not in seq: " + repr(self.seq) +".")
+            raise ValidationError(f"Option {str(val)} not in seq: {repr(self.seq)}.")
 
 
 import yaml

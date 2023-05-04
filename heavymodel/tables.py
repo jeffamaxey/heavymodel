@@ -14,7 +14,7 @@ class MortalityTable:
     def load_csv(self, filename, select_period):
         with open(filename, 'r') as csv_file:
             header = None
-            self.q = dict()
+            self.q = {}
             for raw_line in csv_file:
                 line_array = raw_line.strip("\n").split(",")
                 if header is None:
@@ -47,7 +47,7 @@ class MortalityImprovementTable:
     def load_csv(self, filename):
         with open(filename, 'r') as csv_file:
             header = None
-            self.q = dict()
+            self.q = {}
             for raw_line in csv_file:
                 line_array = raw_line.strip("\n").split(",")
                 if header is None:
@@ -72,7 +72,7 @@ class RangeTable:
     def __init__(self, filename=None):
         with open(filename, 'r') as csv_file:
             header = None
-            self.data = dict()
+            self.data = {}
             for raw_line in csv_file:
                 line_array = raw_line.strip("\n").split(",")
                 if header is None:
@@ -98,7 +98,7 @@ class YieldCurve:
         self.rate_type = rate_type
         with open(self.filename, 'r') as csv_file:
             header = None
-            self.spot_annual = dict()
+            self.spot_annual = {}
             for raw_line in csv_file:
                 line_array = raw_line.strip("\n").split(",")
                 if header is None:
@@ -112,8 +112,8 @@ class YieldCurve:
         self._build_tables()
     
     def _build_tables(self):
-        self.v = dict() # discount factor, monthly
-        self.s = dict() # spot rate, monthly
+        self.v = {}
+        self.s = {}
         for t in range(self.max_t):
             t_years = int(t/12)
             self.s[t] = (1 + self.spot_annual[t_years]) ** (1/12) - 1

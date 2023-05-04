@@ -17,7 +17,7 @@ class Data:
         return Data(self.__dict__.copy())
     
     def __repr__(self):
-        return "<Data " + repr(self.__dict__) + ">"
+        return f"<Data {repr(self.__dict__)}>"
     
     def __iter__(self):
         return iter(self.__dict__)

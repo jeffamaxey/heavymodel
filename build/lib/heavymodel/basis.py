@@ -8,29 +8,17 @@ class Basis:
         # recurse through dictionary
         # check type of item
         # assign each item to a top level slot
-        # 
+        #
         for k, v in data_dict.items():
-            if k == "data":
-                self._data = v
-                # parse data
-                # TODO: data should be a validation schema rather than actual values, Basis.import(data) to validate & insert.
-                #for data_name, data_type in v.items():
-                #    setattr(self, data_name, data_type)
-                    
-            elif k == "assumptions":
+            if k in ["assumptions", "parameters"]:
                 for data_name, data_type in v.items():
                     setattr(self, data_name, self.process_item(data_type))
 
-            elif k == "parameters":
-                for data_name, data_type in v.items():
-                    setattr(self, data_name, self.process_item(data_type))
-                # parse parameters
-            else:
-                #print("WARNING: " + str(k) + " is not a valid top level configuration item, skipped.")
-                pass
+            elif k == "data":
+                self._data = v
                 
     def __repr__(self):
-        return "<Basis items: " + str(len(self.__dict__)) + ">"
+        return f"<Basis items: {len(self.__dict__)}>"
     
     def process_item(self, item):
         if isinstance(item, bool):
@@ -43,7 +31,7 @@ class Basis:
             elif item["type"] == "yield_curve":
                 return YieldCurve(filename=item["filename"], key_period=item["key_period"], rate_type="spot_rate")
         else:
-            raise KeyError(str(item) + " is of unknown type")
+            raise KeyError(f"{str(item)} is of unknown type")
     
     def __setitem__(self, key, value):
         setattr(self, key, value)

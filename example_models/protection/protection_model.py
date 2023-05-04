@@ -9,18 +9,15 @@ class TermAssurance(Model):
         return self.annual_premium / 12
 
     def claim_pp(self, t):
-        if t == 0:
+        if t == 0 or t <= self.term_y * 12 and self.shape == "level":
             return self.sum_assured
         elif t > self.term_y * 12:
             return 0
-        elif self.shape == "level":
-            return self.sum_assured
         elif self.shape == "decreasing":
             r = (1+0.07)**(1/12)-1
             S = self.sum_assured
             T = self.term_y * 12
-            outstanding = S * ((1+r)**T - (1+r)**t)/((1+r)**T - 1)
-            return outstanding
+            return S * ((1+r)**T - (1+r)**t)/((1+r)**T - 1)
         else:
             raise ValueError("Parameter 'shape' must be 'level' or 'decreasing'")
 

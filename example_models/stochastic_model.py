@@ -25,15 +25,15 @@ class Asset(Model):
         return rng.normalvariate(self.mu, self.sigma)
 
 data = Data(dict(mu=0.04, sigma=0.06, initial_fund=1000))
-   
+
 simulations = 1000
 results = []
 
-for count, sim in enumerate(range(simulations)):
+for _ in range(simulations):
     asset = Asset(data=data)
     asset._run(61)
     results.append(asset.asset_value(60))
-    
+
 result_df = pd.DataFrame(data={"asset_value":results})
 sns.kdeplot(result_df["asset_value"])
 

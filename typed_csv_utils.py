@@ -53,18 +53,15 @@ class TypedCSV:
         self.run_checks() # check md5-checksum and length if provided
                 
     def process_meta(self, raw_line):
-        if raw_line[0:2] == "@ ":
-            line = raw_line[2:]
-        else:
-            line = raw_line[1:]
+        line = raw_line[2:] if raw_line[:2] == "@ " else raw_line[1:]
         key, value = line.split(":",1)
         print(key, value)
         if key == "length":
             self.expected_length = int(value)
-        elif key == "separator":
-            self.separator = value
         elif key == "md5-checksum":
             self.md5sum = value
+        elif key == "separator":
+            self.separator = value
         # store all metadata
         self.meta[key] = value
         
@@ -105,9 +102,9 @@ class TypedCSV:
             raise KeyError(f"Invalid Boolean (bool): {string}")
     
     def yield_dict(self):
-            """iterate over all rows, returning a dictionary of each row"""
-            for row in self.data:
-                yield {k:v for k,v in zip(self.header, row)}
+        """iterate over all rows, returning a dictionary of each row"""
+        for row in self.data:
+            yield dict(zip(self.header, row))
 
     def run_checks(self):
         print("running checks")

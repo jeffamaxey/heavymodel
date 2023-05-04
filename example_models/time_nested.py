@@ -9,17 +9,11 @@ import timeit
 class Term(Model):
     def num_pols_if(self, t):
         """number of policies in force at time t0"""
-        if t == 0:
-            return 1
-        else:
-            return self.num_pols_if(t-1) - self.num_deaths(t-1)
+        return 1 if t == 0 else self.num_pols_if(t-1) - self.num_deaths(t-1)
 
     def num_deaths(self, t):
         """number of deaths occurring between time t-1 and time t"""
-        if t == 0:
-            return 0
-        else:
-            return self.num_pols_if(t-1) * self.q_x(t-1)
+        return 0 if t == 0 else self.num_pols_if(t-1) * self.q_x(t-1)
 
     def term_remaining(self, t):
         return self.data["term_m"] - t
@@ -83,11 +77,10 @@ def do_run():
             "sum_assured": 100_000,
             "start_age": 30,
             }
-    
+
     rw_model = RealisticTerm(data={"data":data})
     rw_model._run(proj_len=data["term_m"] + 1)
-    result = sum(rw_model.capital_requirement.values.values())    # meaningless, just for testing
-    return result
+    return sum(rw_model.capital_requirement.values.values())
 
 if __name__ == "__main__":
     import sys

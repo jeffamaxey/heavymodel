@@ -2,10 +2,7 @@ from heavymodel import Model
 
 class Asset(Model):
     def value(self, t):
-        if t == 0:
-            return self.init_value
-        else:
-            return self.value(t-1) * (1 + self.inv_growth)
+        return self.init_value if t == 0 else self.value(t-1) * (1 + self.inv_growth)
 
 class Portfolio(Model):
     def value(self, t):

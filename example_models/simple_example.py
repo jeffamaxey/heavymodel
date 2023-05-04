@@ -8,10 +8,7 @@ from heavymodel import Model
 
 class DemographicModel(Model):
 	def num_policies(self, t):
-		if t == 0:
-			return 1
-		else:
-			return self.num_policies(t-1) - self.num_lapses(t-1)
+		return 1 if t == 0 else self.num_policies(t-1) - self.num_lapses(t-1)
 
 	def num_lapses(self, t):
 		return 0.1 * self.num_policies(t)

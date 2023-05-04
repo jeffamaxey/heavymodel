@@ -9,16 +9,15 @@ class Cache:
         self.func = func
         self.param_len = param_len
         self.has_one_param = self.param_len == 1
-        self.values = dict()
-        self.__name__ = "Cache: " + func.__name__
+        self.values = {}
+        self.__name__ = f"Cache: {func.__name__}"
 
     def __call__(self, *arg):
         if arg in self.values:
             return self.values[arg]
-        else:
-            result = self.func(*arg)
-            self.values[arg] = result
-            return result
+        result = self.func(*arg)
+        self.values[arg] = result
+        return result
 
     def __repr__(self):
         return (
@@ -30,7 +29,7 @@ class Cache:
         )
 
     def clear_cache(self):
-        self.values = dict()
+        self.values = {}
 
 class Model:
     """The Model class provides the core caching functionality required for a heavy model.
@@ -56,13 +55,13 @@ class Model:
         if isinstance(items, dict):
             for k,v in items.items():
                 if k in dir(self) and warn:
-                   warnings.warn("Warning: Duplicate Item: "+str(k))
+                    warnings.warn(f"Warning: Duplicate Item: {str(k)}")
                 setattr(self, k, v)
         else:
             # need to check that this is a data object
             for k, v in vars(items).items():
                 if k in dir(self) and warn:
-                    warnings.warn("Warning: Duplicate Item: "+str(k))
+                    warnings.warn(f"Warning: Duplicate Item: {str(k)}")
                 setattr(self, k, v)
 
     def _cache_funcs(self, verbose=False):
